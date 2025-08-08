@@ -3,6 +3,23 @@ import argparse
 from elftools.elf.elffile import ELFFile
 from capstone import Cs, CS_ARCH_X86, CS_MODE_64
 
+######ADD SYMBOL RESOLUTION ############
+def load_symbols(elf):
+    #will map addresses to symbol names
+    symbols = {}
+    #loop over the two symbol tables, symtab=full symbol table, dynsym=dynamic symbol table
+    for section_name in ['.symtab', '.dynsym']:
+        #looks for a section in the ELF file by name
+        section = elf.get_section_by_name(section_name)
+        if section:
+            #iter_symbols gives a list-like object of all symbols
+            for sym in section.iter_symbols():
+                if sym['st_value'] !=0:
+                    symbols[sym['st_value']] = sym.name
+    return symbols
+
+
+
 #create an ArgumentParser object to handle reading input from command line
 parser = argparse.ArgumentParser(
     description="Disassemble a given ELF binary using pyelftools + Capstone"
@@ -15,6 +32,7 @@ parser.add_argument("binary", help="Path to ELF binary")
 args = parser.parse_args()
 
 print("Binary path is:", args.binary)
+
 
 ##########LOAD AND PARSE THE ELF FILE#######
 #opens file path that was passed from command line
@@ -43,3 +61,8 @@ disemb = Cs (CS_ARCH_X86, CS_MODE_64)
 for instr in disemb.disasm(code, addr):
     # printing address = memory address of instruction, mnemonic = assembly instruction, op_str = the operands
     print(f"0x{instr.address:x}:\t{instr.mnemonic}\t{instr.op_str}")
+
+
+
+
+######ADD SYMBOL RESOLUTION ############
