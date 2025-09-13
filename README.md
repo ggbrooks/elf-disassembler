@@ -75,7 +75,7 @@ Binary path is: /Users/giannabrooks/Documents/VMShared/test1
 - [ ] Disassemble additional sections – Handle `.plt`, `.init`, `.fini`, and `.got` entries
 - [ ] Visualize control flow (optional) – Use networkx or Graphviz to generate a basic control flow graph (CFG)
 - [ ] Add test ELF binaries and CI check – Keep a few sample binaries and test cases for future improvements
-- [ ] Write a blog post or walkthrough – Share what you learned building this
+- [ ] Write a blog post or walkthrough
 
 Progress will be tracked in the [Update Log](#update-log) section.
 
